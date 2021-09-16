@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PracticaSemillas
 {
@@ -22,16 +23,112 @@ namespace PracticaSemillas
             
             var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
 
-            float valorChi = ChiCuadrado(lista,n);
+            //float valorChi = ChiCuadrado(lista,n);
 
-            ComprobarHipotesis(valorChi,chiCritico);
+            //ComprobarHipotesis(valorChi,chiCritico);
 
-            //foreach (var item in lista)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            // Valores inadecuados
+            //prueba kolmogorov
+
+            float valorCriticoK =  1.36f / (float)Math.Sqrt(n);
+            float valorKolmogorov =Kolmogorov(lista,n);
+            ComprobarHipotesis(valorKolmogorov, valorCriticoK);
             //GeneradorEstandarMinimo(5, 12, 5, 21);
+
+
+            double[] datos = new double[] { 0.41, 0.68, 0.89, 0.94, 0.74, 0.91, 0.55, 0.62, 0.36, 0.27,
+                                            0.19, 0.72, 0.75, 0.08, 0.54, 0.02, 0.01, 0.36, 0.16, 0.28,
+                                            0.18, 0.01, 0.95, 0.69, 0.18, 0.47, 0.23,0.32, 0.82, 0.53,
+                                            0.31, 0.42, 0.73, 0.04, 0.83, 0.45, 0.13, 0.57, 0.63, 0.29};
+        }
+
+        public static float Kolmogorov(List<float> rnCalculado, int n)
+        {
+            float[] rnLimitado = new float[n];
+           
+
+            for (int i = 0; i < n; i++)
+            {
+                rnLimitado[i] = rnCalculado[i];
+            }
+
+            int[] FO = CalcularFO(rnLimitado);
+            int[] FOA = CalcularFOA(FO);
+            float[] POA = CalcularPOA(FOA, n);
+            float[] PEA = CalcularPEA(10);//numero de clases 10
+            List<float> tablaDM = CalcularPeaPoa(PEA, POA);
+
+            float maxValue = tablaDM.Max();
+
+            return maxValue;
+        }
+
+        public static List<float> CalcularPeaPoa( float[] PEA, float[] POA)
+        {
+            List<float> valoresCalculados = new List<float>();
+            for (int i = 0; i < POA.Length; i++)
+            {
+                valoresCalculados.Add(Math.Abs(PEA[i] - POA[i]));
+                //Console.WriteLine(valoresCalculados[i]);
+            }
+
+            return valoresCalculados;
+        }
+
+        public static float[] CalcularPOA(int[] FOA,int n)
+        {
+            float[] POA = new float[10];
+
+            
+            for (int i = 0; i < FOA.Length; i++)
+            {
+                POA[i] = FOA[i] / (float)n;
+               // Console.WriteLine(POA[i]);
+            }
+           
+            return POA;
+        }
+
+        public static float[] CalcularPEA(int numeroClases)
+        {
+            double valorInicial = 1.0 / numeroClases;
+            double acumulado = 0f;
+            float[] PEA = new float[numeroClases];
+
+            for (int i = 0; i < numeroClases; i++)
+            {
+                acumulado += valorInicial;
+                PEA[i] = (float)Math.Round(acumulado,3);
+                //Console.WriteLine(PEA[i]);
+            }
+            return PEA;
+        }
+        public static int[] CalcularFOA(int[] FO)
+        {
+            int[] FOA = new int[10];
+            int acumulado = 0;
+
+            for (int i = 0; i < FO.Length; i++)
+            {
+                acumulado += FO[i];
+                FOA[i] = acumulado;
+            }
+
+            return FOA;
+        }
+
+        public static void VerificarCorridas(float[] datos)
+        {
+            for (int i = 1; i < datos.Length; i++)
+            {
+                if(datos[i-1] < datos[i])
+                {
+                    Console.WriteLine("+");
+                }
+                else
+                {
+                    Console.WriteLine("-");
+                }
+            }
         }
 
         //n es la muestra que vamos a generar
@@ -111,7 +208,7 @@ namespace PracticaSemillas
         public static List<int> GeneradorLinealCongruente(int x, int a, int c,int m)
         {
             List<int> numerosAleatorios = new List<int>();
-            Console.WriteLine("Generando números mediante el metodo lineal congruente...");
+           // Console.WriteLine("Generando números mediante el metodo lineal congruente...");
 
             //creamos una variable auxiliar que nos guarda el valor inicial de x0 para despues irlo iterando
             int valorParada = x;
