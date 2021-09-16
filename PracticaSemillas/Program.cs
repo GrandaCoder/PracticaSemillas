@@ -21,17 +21,17 @@ namespace PracticaSemillas
             //GeneradorLinealCongruente(x, a, c, m);
 
             
-            var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
+            //var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
 
             //float valorChi = ChiCuadrado(lista,n);
 
             //ComprobarHipotesis(valorChi,chiCritico);
 
             //prueba kolmogorov
+            //float valorCriticoK =  1.36f / (float)Math.Sqrt(n);
+            //float valorKolmogorov =Kolmogorov(lista,n);
+            //ComprobarHipotesis(valorKolmogorov, valorCriticoK);
 
-            float valorCriticoK =  1.36f / (float)Math.Sqrt(n);
-            float valorKolmogorov =Kolmogorov(lista,n);
-            ComprobarHipotesis(valorKolmogorov, valorCriticoK);
             //GeneradorEstandarMinimo(5, 12, 5, 21);
 
 
@@ -39,6 +39,14 @@ namespace PracticaSemillas
                                             0.19, 0.72, 0.75, 0.08, 0.54, 0.02, 0.01, 0.36, 0.16, 0.28,
                                             0.18, 0.01, 0.95, 0.69, 0.18, 0.47, 0.23,0.32, 0.82, 0.53,
                                             0.31, 0.42, 0.73, 0.04, 0.83, 0.45, 0.13, 0.57, 0.63, 0.29};
+
+            double[] datos2 = new double[] { 0.08, 0.09, 0.23, 0.29, 0.42, 0.55, 0.58, 0.72, 0.89, 0.91,
+0.11, 0.16, 0.18, 0.31, 0.41, 0.53, 0.71, 0.73, 0.74, 0.84,
+0.01, 0.09, 0.30, 0.32, 0.45, 0.47, 0.69, 0.74, 0.91, 0.95,
+0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91
+};
+
+            VerificarCorridas(datos2);
         }
 
         public static float Kolmogorov(List<float> rnCalculado, int n)
@@ -116,19 +124,43 @@ namespace PracticaSemillas
             return FOA;
         }
 
-        public static void VerificarCorridas(float[] datos)
+        public static void VerificarCorridas(double[] datos)
         {
+            
+            int counter = 0;
+
+            List<char> lista = new List<char>();
+            Console.Write("*");
+            lista.Add('*');
+
+            
             for (int i = 1; i < datos.Length; i++)
             {
-                if(datos[i-1] < datos[i])
+                if((datos[i-1] < datos[i]))
                 {
-                    Console.WriteLine("+");
+                    Console.Write("+");
+                    lista.Add('+');
+                    //counter++;
                 }
-                else
+                else //if((datos[i - 1] > datos[i]))
                 {
-                    Console.WriteLine("-");
+                    lista.Add('-');
+                    Console.Write("-");
+                   // counter++;                   
                 }
+               
             }
+            for (int j = 1; j < lista.Count; j++)
+            {
+                if(!(lista[j-1] == lista[j]))
+                {
+                    counter++;
+                }
+               
+            }
+
+
+            Console.WriteLine(counter);
         }
 
         //n es la muestra que vamos a generar
