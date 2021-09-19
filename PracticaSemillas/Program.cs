@@ -23,6 +23,11 @@ namespace PracticaSemillas
             
             //var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
 
+            //foreach (var item in lista)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
             //float valorChi = ChiCuadrado(lista,n);
 
             //ComprobarHipotesis(valorChi,chiCritico);
@@ -37,17 +42,19 @@ namespace PracticaSemillas
 
             double[] datos = new double[] { 0.41, 0.68, 0.89, 0.94, 0.74, 0.91, 0.55, 0.62, 0.36, 0.27,
                                             0.19, 0.72, 0.75, 0.08, 0.54, 0.02, 0.01, 0.36, 0.16, 0.28,
-                                            0.18, 0.01, 0.95, 0.69, 0.18, 0.47, 0.23,0.32, 0.82, 0.53,
+                                            0.18, 0.01, 0.95, 0.69, 0.18, 0.47, 0.23,0.32,  0.82, 0.53,
                                             0.31, 0.42, 0.73, 0.04, 0.83, 0.45, 0.13, 0.57, 0.63, 0.29};
 
             double[] datos2 = new double[] { 0.08, 0.09, 0.23, 0.29, 0.42, 0.55, 0.58, 0.72, 0.89, 0.91,
-0.11, 0.16, 0.18, 0.31, 0.41, 0.53, 0.71, 0.73, 0.74, 0.84,
-0.01, 0.09, 0.30, 0.32, 0.45, 0.47, 0.69, 0.74, 0.91, 0.95,
-0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91
-};
+                                                0.11, 0.16, 0.18, 0.31, 0.41, 0.53, 0.71, 0.73, 0.74, 0.84,
+                                                0.01, 0.09, 0.30, 0.32, 0.45, 0.47, 0.69, 0.74, 0.91, 0.95,
+                                                0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91};
 
-            VerificarCorridas(datos2);
+            //VerificarCorridas(datos2);
+
         }
+
+       
 
         public static float Kolmogorov(List<float> rnCalculado, int n)
         {
@@ -124,11 +131,11 @@ namespace PracticaSemillas
             return FOA;
         }
 
-        public static void VerificarCorridas(double[] datos)
+        public static double VerificarCorridas(double[] datos)
         {
-            
+            double puntosCriticos = 1.96;
             int counter = 0;
-
+            //Console.WriteLine(datos.Length);
             List<char> lista = new List<char>();
             Console.Write("*");
             lista.Add('*');
@@ -159,8 +166,24 @@ namespace PracticaSemillas
                
             }
 
+            double mediaU = ((2 * (datos.Length)) - 1) / 3.0;
+            double varianzaOCuadrado = ((16 * (datos.Length)) - 29)/ 90.0;
 
-            Console.WriteLine(counter);
+            double z = (counter - mediaU) / (Math.Sqrt(varianzaOCuadrado));
+
+           
+            Console.WriteLine("valor de z {0}", z);
+
+            if(z <= puntosCriticos && z >= -puntosCriticos)
+            {
+                Console.WriteLine("Se acepta la hipotesis y los datos son independientes");
+            }
+            else
+            {
+                Console.WriteLine("NO se acepta la hipotesis y los datos NO son independientes");
+            }
+
+            return z;
         }
 
         //n es la muestra que vamos a generar
@@ -232,7 +255,7 @@ namespace PracticaSemillas
             {
                // Console.WriteLine(xn);
                 rn.Add(xn / (float)m);
-
+              
             }
 
             return rn;
