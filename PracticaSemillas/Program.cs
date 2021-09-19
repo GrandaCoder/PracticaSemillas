@@ -16,17 +16,21 @@ namespace PracticaSemillas
             int a = 106;
             int c = 1283;
 
-            int n = 1000;
+            int n = 20;
             float chiCritico = 16.92f;
             //GeneradorLinealCongruente(x, a, c, m);
 
             
-            //var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
+            var lista =CalcularRn(GeneradorLinealCongruente(x, a, c, m),m);
 
             //foreach (var item in lista)
             //{
             //    Console.WriteLine(item);
             //}
+
+            Series(lista.ToArray(),n);
+
+            
 
             //float valorChi = ChiCuadrado(lista,n);
 
@@ -54,7 +58,45 @@ namespace PracticaSemillas
 
         }
 
-       
+        public static void Series(float[] datos,int limite)
+        {
+
+            float[] rnLimitado = new float[limite];
+
+            for (int j = 0; j < limite; j++)
+            {
+                rnLimitado[j] = datos[j];
+            }
+
+            double[,] tabla = new double[10,10];
+
+            for (int i = 0; i < rnLimitado.Length; i +=2)
+            {
+                Console.WriteLine("{4} valor x,y=  {0} , {1} para {2} y {3} se le agrega 1",(int)Math.Floor(rnLimitado[i] * 10), (int)Math.Floor(rnLimitado[i + 1] * 10),rnLimitado[i],rnLimitado[i+1],i);
+                int x = (int)Math.Floor(rnLimitado[i] * 10);
+                int y = (int)Math.Floor(rnLimitado[i+1] * 10);
+
+                tabla[x,y] += 1; 
+            }
+            Console.WriteLine();
+            Imprimir(tabla);
+        }
+
+        public static void Imprimir(double[,] arr)
+        {
+            int rowLength = arr.GetLength(0);
+            int colLength = arr.GetLength(1);
+
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    Console.Write(string.Format("{0} ", arr[i, j]));
+                }
+                Console.Write(Environment.NewLine + Environment.NewLine);
+            }
+            Console.ReadLine();
+        }
 
         public static float Kolmogorov(List<float> rnCalculado, int n)
         {
