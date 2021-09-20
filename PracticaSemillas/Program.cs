@@ -16,7 +16,7 @@ namespace PracticaSemillas
             int a = 106;
             int c = 1283;
 
-            int n = 20;
+            int n = 1200;
             float chiCritico = 16.92f;
             //GeneradorLinealCongruente(x, a, c, m);
 
@@ -69,19 +69,54 @@ namespace PracticaSemillas
             }
 
             double[,] tabla = new double[10,10];
+            double[,] tablaChi2D = new double[10, 10];
 
             for (int i = 0; i < rnLimitado.Length; i +=2)
             {
-                Console.WriteLine("{4} valor x,y=  {0} , {1} para {2} y {3} se le agrega 1",(int)Math.Floor(rnLimitado[i] * 10), (int)Math.Floor(rnLimitado[i + 1] * 10),rnLimitado[i],rnLimitado[i+1],i);
+                //Console.WriteLine("{4} valor x,y=  {0} , {1} para {2} y {3} se le agrega 1",(int)Math.Floor(rnLimitado[i] * 10), (int)Math.Floor(rnLimitado[i + 1] * 10),rnLimitado[i],rnLimitado[i+1],i);
                 int x = (int)Math.Floor(rnLimitado[i] * 10);
                 int y = (int)Math.Floor(rnLimitado[i+1] * 10);
 
                 tabla[x,y] += 1; 
             }
-            Console.WriteLine();
-            Imprimir(tabla);
-        }
 
+
+            Console.WriteLine();
+            
+            Imprimir(tabla);
+
+            Console.WriteLine("tabla chi calculada");
+
+            Imprimir(CalcularTabla2Dchi(tabla, limite));
+        }
+        public static double[,] CalcularTabla2Dchi(double[,] tabla2D, int numeroDatos)
+        {
+            int rowLength = tabla2D.GetLength(0);
+            int colLength = tabla2D.GetLength(1);
+
+            double[,] tablaChi = new double[10, 10]; 
+
+            //FE numero parejas / cantidad de celdas
+            double FE = (numeroDatos/2) / 100.0;
+
+            Console.WriteLine("FE: {0}",FE);
+            double valorChi2D = 0;
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    tablaChi[i,j] = Math.Round(((float)Math.Pow((FE - tabla2D[i, j]), 2) / FE),2);
+                    valorChi2D += tablaChi[i, j];
+                }
+           
+            }
+
+            //grados libertad 100-1 = 99 como en la tabla no aparece 99 se hizo interpolacion compleja
+            double gradosLibertad = 123.22241;
+
+            ComprobarHipotesis((float)valorChi2D, (float)gradosLibertad,true);
+            return tablaChi;
+        }
         public static void Imprimir(double[,] arr)
         {
             int rowLength = arr.GetLength(0);
@@ -91,11 +126,11 @@ namespace PracticaSemillas
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    Console.Write(string.Format("{0} ", arr[i, j]));
+                    Console.Write(string.Format("\t{0} ", arr[i, j]));
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
-            Console.ReadLine();
+            
         }
 
         public static float Kolmogorov(List<float> rnCalculado, int n)
@@ -276,15 +311,19 @@ namespace PracticaSemillas
             return FO;
         }
 
-        public static void ComprobarHipotesis(float DMCalculado,float DMcritico)
+        public static void ComprobarHipotesis(float DMCalculado,float DMcritico,bool independecia=false)
         {
-            if (DMCalculado <= DMcritico)
+            if (DMCalculado <= DMcritico && independecia == false)
             {
                 Console.WriteLine("Se acepta la hipotesis ya que {0} <= {1} \n El generador es bueno en cuanto a uniformidad.",DMCalculado,DMcritico);
             }
+            else if (DMCalculado <= DMcritico && independecia == true)
+            {
+                Console.WriteLine("Se acepta la hipotesis ya que {0} <= {1} \n El generador es bueno en cuanto a Independecia.", DMCalculado, DMcritico);
+            }
             else
             {
-                Console.WriteLine("No aprueba la hipotesis {0} <= {1} \n El generador NO es bueno en cuanto a uniformidad", DMCalculado, DMcritico);
+                Console.WriteLine("No aprueba la hipotesis {0} <= {1} \n", DMCalculado, DMcritico);
             }
         }
         public static List<float> CalcularRn(List<int> numerosAleatorios, int m)
