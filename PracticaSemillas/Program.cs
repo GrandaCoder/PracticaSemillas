@@ -17,11 +17,11 @@ namespace PracticaSemillas
             int c = 1283;
 
             int n = 1200;
-            float chiCritico = 16.92f;
+            double chiCritico = 16.92;
             //GeneradorLinealCongruente(x, a, c, m);
 
 
-            //var lista = CalcularRn(GeneradorLinealCongruente(x, a, c, m), m);
+            var lista = CalcularRn(GeneradorLinealCongruente(x, a, c, m), m);
 
             //foreach (var item in lista)
             //{
@@ -32,21 +32,22 @@ namespace PracticaSemillas
 
 
 
-            //float valorChi = ChiCuadrado(lista, n);
+            //double valorChi = ChiCuadrado(lista, n);
 
-            //ComprobarHipotesis(valorChi,chiCritico);
+            //ComprobarHipotesis(valorChi, chiCritico);
 
             //prueba kolmogorov
-            //float valorCriticoK =  1.36f / (float)Math.Sqrt(n);
-            //float valorKolmogorov =Kolmogorov(lista,n);
+            //double valorCriticoK = 1.36f / (double)Math.Sqrt(n);
+            //double valorKolmogorov = Kolmogorov(lista, n);
             //ComprobarHipotesis(valorKolmogorov, valorCriticoK);
 
             //GeneradorEstandarMinimo(5, 12, 5, 21);
 
-            double numero = 0.55787;
+            //double numero = 0.55787;
             //Console.WriteLine("Posicion {0} de {1}", EncontrarPosicionNumero(numero),numero);
-
-            EncontrarPosicionNumero(numero);
+           
+            //PruebaPoker(lista, 1000);
+            //EncontrarPosicionNumero(numero);
 
             double[] datos = new double[] { 0.41, 0.68, 0.89, 0.94, 0.74, 0.91, 0.55, 0.62, 0.36, 0.27,
                                             0.19, 0.72, 0.75, 0.08, 0.54, 0.02, 0.01, 0.36, 0.16, 0.28,
@@ -58,14 +59,18 @@ namespace PracticaSemillas
                                                 0.01, 0.09, 0.30, 0.32, 0.45, 0.47, 0.69, 0.74, 0.91, 0.95,
                                                 0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91};
 
+
+            double[] pruebita = new double[] { 0.55787, 0.33333, 0.16543, 0.17145, 0.51575 , 0.44343 , 0.11171 };
+
+            PruebaPoker(pruebita.ToList(), 7);
             //VerificarCorridas(datos2);
 
         }
 
-        public static void Series(float[] datos,int limite)
+        public static void Series(double[] datos,int limite)
         {
 
-            float[] rnLimitado = new float[limite];
+            double[] rnLimitado = new double[limite];
 
             for (int j = 0; j < limite; j++)
             {
@@ -109,7 +114,7 @@ namespace PracticaSemillas
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    tablaChi[i,j] = Math.Round(((float)Math.Pow((FE - tabla2D[i, j]), 2) / FE),2);
+                    tablaChi[i,j] = Math.Round(((double)Math.Pow((FE - tabla2D[i, j]), 2) / FE),2);
                     valorChi2D += tablaChi[i, j];
                 }
            
@@ -118,7 +123,7 @@ namespace PracticaSemillas
             //grados libertad 100-1 = 99 como en la tabla no aparece 99 se hizo interpolacion compleja
             double gradosLibertad = 123.22241;
 
-            ComprobarHipotesis((float)valorChi2D, (float)gradosLibertad,true);
+            ComprobarHipotesis(valorChi2D, gradosLibertad,true);
             return tablaChi;
         }
         public static void Imprimir(double[,] arr)
@@ -137,9 +142,9 @@ namespace PracticaSemillas
             
         }
 
-        public static float Kolmogorov(List<float> rnCalculado, int n)
+        public static double Kolmogorov(List<double> rnCalculado, int n)
         {
-            float[] rnLimitado = new float[n];
+            double[] rnLimitado = new double[n];
            
 
             for (int i = 0; i < n; i++)
@@ -149,18 +154,18 @@ namespace PracticaSemillas
 
             int[] FO = CalcularFO(rnLimitado);
             int[] FOA = CalcularFOA(FO);
-            float[] POA = CalcularPOA(FOA, n);
-            float[] PEA = CalcularPEA(10);//numero de clases 10
-            List<float> tablaDM = CalcularPeaPoa(PEA, POA);
+            double[] POA = CalcularPOA(FOA, n);
+            double[] PEA = CalcularPEA(10);//numero de clases 10
+            List<double> tablaDM = CalcularPeaPoa(PEA, POA);
 
-            float maxValue = tablaDM.Max();
+            double maxValue = tablaDM.Max();
 
             return maxValue;
         }
 
-        public static List<float> CalcularPeaPoa( float[] PEA, float[] POA)
+        public static List<double> CalcularPeaPoa(double[] PEA, double[] POA)
         {
-            List<float> valoresCalculados = new List<float>();
+            List<double> valoresCalculados = new List<double>();
             for (int i = 0; i < POA.Length; i++)
             {
                 valoresCalculados.Add(Math.Abs(PEA[i] - POA[i]));
@@ -170,30 +175,32 @@ namespace PracticaSemillas
             return valoresCalculados;
         }
 
-        public static float[] CalcularPOA(int[] FOA,int n)
+        public static double[] CalcularPOA(int[] FOA,int n)
         {
-            float[] POA = new float[10];
+            double[] POA = new double[10];
 
             
             for (int i = 0; i < FOA.Length; i++)
             {
-                POA[i] = FOA[i] / (float)n;
+                POA[i] = FOA[i] / (double)n;
                // Console.WriteLine(POA[i]);
             }
            
             return POA;
         }
 
-        public static void PruebaPoker()
+        public static void PruebaPoker(List<double> numerosRn, int n)
         {
-
+            CincoDecimales( numerosRn, n);
 
         }
 
-        public static void CincoDecimales(List<float> numerosRn, int n)
+        public static void CincoDecimales(List<double> numerosRn, int n)
         {
-            List<float> rnCortados = new List<float>();
-            int[] FO = new int[5];
+            List<double> rnCortados = new List<double>();
+
+            //7 combinaciones para 5 digitos
+            int[] FO = new int[7];
 
 
             for (int i = 0; i < n; i++)
@@ -203,14 +210,14 @@ namespace PracticaSemillas
 
             for (int j = 0; j < rnCortados.Count; j++)
             {
+                //Console.WriteLine(rnCortados[j]);
+
                 FO[EncontrarPosicionNumero(rnCortados[j])] += 1; 
             }
 
             Console.WriteLine("FO");
-            foreach (var item in FO)
-            {
-                Console.WriteLine(item);
-            }
+
+            Console.WriteLine("Todos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}",FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
 
         }
 
@@ -218,16 +225,11 @@ namespace PracticaSemillas
         {     
             List<int> numeroOrdenado = new List<int>();
             int k = 5;
-            //numero = numero * 10000;
-
-            //double[] valores = numero.ToString().Split("").Select(double.Parse).ToArray();
-
+        
             for (int i = 1; i <= k; i++)
-            {
-                //numeroOrdenado.Add((int)valores[0]);
-
+            { 
                 numeroOrdenado.Add((int)(numero * (Math.Pow(10, i))) % 10);
-                Console.WriteLine(numeroOrdenado[i - 1]);
+               // Console.WriteLine(numeroOrdenado[i - 1]);
             }
 
             //foreach (var item in numeroOrdenado)
@@ -235,7 +237,7 @@ namespace PracticaSemillas
             //    Console.WriteLine(item);
             //}
 
-            Console.ReadKey();
+            //Console.ReadKey();
 
             //numeroOrdenado.Sort();
 
@@ -256,10 +258,12 @@ namespace PracticaSemillas
             
             if(multiplicador == 4 && diferenciador.Count == 3)
             {
+                //Console.WriteLine("Posicion 6 de {1}",numero);
                 return 6;
             }
             else
             {
+                //Console.WriteLine("Posicion {0} de {1}", (multiplicador - 1),numero);
                 return multiplicador - 1;
             }
 
@@ -289,16 +293,16 @@ namespace PracticaSemillas
 
         }
 
-        public static float[] CalcularPEA(int numeroClases)
+        public static double[] CalcularPEA(int numeroClases)
         {
             double valorInicial = 1.0 / numeroClases;
             double acumulado = 0f;
-            float[] PEA = new float[numeroClases];
+            double[] PEA = new double[numeroClases];
 
             for (int i = 0; i < numeroClases; i++)
             {
                 acumulado += valorInicial;
-                PEA[i] = (float)Math.Round(acumulado,3);
+                PEA[i] = Math.Round(acumulado,3);
                 //Console.WriteLine(PEA[i]);
             }
             return PEA;
@@ -373,9 +377,9 @@ namespace PracticaSemillas
         }
 
         //n es la muestra que vamos a generar
-        public static float ChiCuadrado(List<float> rnCalculado, int n)
+        public static double ChiCuadrado(List<double> rnCalculado, int n)
         {
-            float[] rnLimitado = new float[n];
+            double[] rnLimitado = new double[n];
             //numero de clases 10
 
             for (int i = 0; i < n; i++)
@@ -387,7 +391,7 @@ namespace PracticaSemillas
             //int[] FO = new int[clases];
             int[] FO = CalcularFO(rnLimitado);
             int[] FE = new int[clases];
-            float[] chiCalculado = new float[clases];
+            double[] chiCalculado = new double[clases];
 
             //foreach (var xn in rnLimitado)
             //{
@@ -397,9 +401,9 @@ namespace PracticaSemillas
             for (int i = 0; i < clases; i++)
             {
                 FE[i] = n / clases;
-                chiCalculado[i] = ((float)Math.Pow((FE[i] - FO[i]), 2) / FE[i]);
+                chiCalculado[i] = ((double)Math.Pow((FE[i] - FO[i]), 2) / FE[i]);
             }
-            float chiValor= 0f;
+            double chiValor = 0f;
             foreach (var item in chiCalculado)
             {
                 //Console.WriteLine("rango {0}",item );
@@ -409,7 +413,7 @@ namespace PracticaSemillas
             return chiValor;
         }
 
-        public static int[] CalcularFO(float[] rnLimitado, int clases=10)
+        public static int[] CalcularFO(double[] rnLimitado, int clases=10)
         {
             int[] FO = new int[clases];
             foreach (var xn in rnLimitado)
@@ -420,7 +424,7 @@ namespace PracticaSemillas
             return FO;
         }
 
-        public static void ComprobarHipotesis(float DMCalculado,float DMcritico,bool independecia=false)
+        public static void ComprobarHipotesis(double DMCalculado, double DMcritico,bool independecia=false)
         {
             if (DMCalculado <= DMcritico && independecia == false)
             {
@@ -435,16 +439,16 @@ namespace PracticaSemillas
                 Console.WriteLine("No aprueba la hipotesis {0} <= {1} \n", DMCalculado, DMcritico);
             }
         }
-        public static List<float> CalcularRn(List<int> numerosAleatorios, int m)
+        public static List<double> CalcularRn(List<int> numerosAleatorios, int m)
         {
-            List<float> rn = new List<float>();
+            List<double> rn = new List<double>();
 
             //Console.WriteLine(numerosAleatorios.Count);
 
             foreach (var xn in numerosAleatorios)
             {
                // Console.WriteLine(xn);
-                rn.Add(xn / (float)m);
+                rn.Add(xn / (double)m);
               
             }
 
