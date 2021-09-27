@@ -6,6 +6,7 @@ namespace PracticaSemillas
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             // valores adecuados como ejemplo pequeño
@@ -21,7 +22,7 @@ namespace PracticaSemillas
             //GeneradorLinealCongruente(x, a, c, m);
 
 
-            var lista = CalcularRn(GeneradorLinealCongruente(x, a, c, m), m);
+            //var lista = CalcularRn(GeneradorLinealCongruente(x, a, c, m), m);
 
             //foreach (var item in lista)
             //{
@@ -30,7 +31,10 @@ namespace PracticaSemillas
 
             //Series(lista.ToArray(),n);
 
+            var listaNumerosSistema = CalcularRn(numerosRandom(6075), 6075);
 
+            PruebaPoker(listaNumerosSistema, listaNumerosSistema.Count);
+            //double valorChi = ChiCuadrado(listaNumerosSistema, n);
 
             //double valorChi = ChiCuadrado(lista, n);
 
@@ -41,6 +45,7 @@ namespace PracticaSemillas
             //double valorKolmogorov = Kolmogorov(lista, n);
             //ComprobarHipotesis(valorKolmogorov, valorCriticoK);
 
+            // GeneradorEstandarMinimo(123456789, (int)Math.Pow(7,5), 0, Math.Pow(2,31)-1);
             //GeneradorEstandarMinimo(5, 12, 5, 21);
 
             //double numero = 0.55787;
@@ -58,6 +63,7 @@ namespace PracticaSemillas
                                                 0.11, 0.16, 0.18, 0.31, 0.41, 0.53, 0.71, 0.73, 0.74, 0.84,
                                                 0.01, 0.09, 0.30, 0.32, 0.45, 0.47, 0.69, 0.74, 0.91, 0.95,
                                                 0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91};
+
 
 
             double[] pruebita = new double[] {0.06141, 0.14411, 0.87648, 0.81792,
@@ -96,13 +102,32 @@ namespace PracticaSemillas
 0.27813, 0.62182 ,0.82578 ,0.85623, 0.51483, 0.09099 };
             //var lista = CalcularRn(pruebita.ToList(), 7);
 
-            PruebaPoker(pruebita2.ToList(), pruebita2.Length);
+            //PruebaPoker(pruebita2.ToList(), pruebita2.Length);
             //PruebaPoker(lista, 6000);
             //VerificarCorridas(datos2);
+            double[] tresDecimales = new double[] { 0.959, 0.713, 0.178, 0.427, 0.299, 0.153, 0.087, 0.615, 0.188, 0.972, 0.239, 0.425, 0.372, 0.015, 0.316, 0.532, 0.216, 0.466, 0.808, 0.444, 0.084, 0.577, 0.166, 0.182, 0.904, 0.296, 0.854, 0.317, 0.051, 0.229, 0.299, 0.199, 0.185, 0.222, 0.954, 0.582, 0.283, 0.324, 0.913, 0.158 };
 
+            TresDecimales(tresDecimales);
+
+
+            
         }
 
-        public static void Series(double[] datos,int limite)
+        public static List<int> numerosRandom(int n)
+        {
+            List<int> misNumero = new List<int>();
+
+            Random rnd = new Random();
+
+            for (int i = 0; i < n; i++)
+            {
+                misNumero.Add(rnd.Next(0, 6075));
+            }
+
+            return misNumero;
+        }
+
+        public static void Series(double[] datos, int limite)
         {
 
             double[] rnLimitado = new double[limite];
@@ -112,21 +137,21 @@ namespace PracticaSemillas
                 rnLimitado[j] = datos[j];
             }
 
-            double[,] tabla = new double[10,10];
+            double[,] tabla = new double[10, 10];
             double[,] tablaChi2D = new double[10, 10];
 
-            for (int i = 0; i < rnLimitado.Length; i +=2)
+            for (int i = 0; i < rnLimitado.Length; i += 2)
             {
                 //Console.WriteLine("{4} valor x,y=  {0} , {1} para {2} y {3} se le agrega 1",(int)Math.Floor(rnLimitado[i] * 10), (int)Math.Floor(rnLimitado[i + 1] * 10),rnLimitado[i],rnLimitado[i+1],i);
                 int x = (int)Math.Floor(rnLimitado[i] * 10);
-                int y = (int)Math.Floor(rnLimitado[i+1] * 10);
+                int y = (int)Math.Floor(rnLimitado[i + 1] * 10);
 
-                tabla[x,y] += 1; 
+                tabla[x, y] += 1;
             }
 
 
             Console.WriteLine();
-            
+
             Imprimir(tabla);
 
             Console.WriteLine("tabla chi calculada");
@@ -138,27 +163,27 @@ namespace PracticaSemillas
             int rowLength = tabla2D.GetLength(0);
             int colLength = tabla2D.GetLength(1);
 
-            double[,] tablaChi = new double[10, 10]; 
+            double[,] tablaChi = new double[10, 10];
 
             //FE numero parejas / cantidad de celdas
-            double FE = (numeroDatos/2) / 100.0;
+            double FE = (numeroDatos / 2) / 100.0;
 
-            Console.WriteLine("FE: {0}",FE);
+            Console.WriteLine("FE: {0}", FE);
             double valorChi2D = 0;
             for (int i = 0; i < rowLength; i++)
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    tablaChi[i,j] = Math.Round(((double)Math.Pow((FE - tabla2D[i, j]), 2) / FE),2);
+                    tablaChi[i, j] = Math.Round(((double)Math.Pow((FE - tabla2D[i, j]), 2) / FE), 2);
                     valorChi2D += tablaChi[i, j];
                 }
-           
+
             }
 
             //grados libertad 100-1 = 99 como en la tabla no aparece 99 se hizo interpolacion compleja
             double gradosLibertad = 123.22241;
 
-            ComprobarHipotesis(valorChi2D, gradosLibertad,true);
+            ComprobarHipotesis(valorChi2D, gradosLibertad, true);
             return tablaChi;
         }
         public static void Imprimir(double[,] arr)
@@ -174,13 +199,13 @@ namespace PracticaSemillas
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
-            
+
         }
 
         public static double Kolmogorov(List<double> rnCalculado, int n)
         {
             double[] rnLimitado = new double[n];
-           
+
 
             for (int i = 0; i < n; i++)
             {
@@ -210,23 +235,23 @@ namespace PracticaSemillas
             return valoresCalculados;
         }
 
-        public static double[] CalcularPOA(int[] FOA,int n)
+        public static double[] CalcularPOA(int[] FOA, int n)
         {
             double[] POA = new double[10];
 
-            
+
             for (int i = 0; i < FOA.Length; i++)
             {
                 POA[i] = FOA[i] / (double)n;
-               // Console.WriteLine(POA[i]);
+                // Console.WriteLine(POA[i]);
             }
-           
+
             return POA;
         }
 
         public static void PruebaPoker(List<double> numerosRn, int n)
         {
-            CincoDecimales( numerosRn, n);
+            CincoDecimales(numerosRn, n);
 
         }
 
@@ -236,27 +261,27 @@ namespace PracticaSemillas
 
             //7 combinaciones para 5 digitos
             int[] FO = new int[7];
-            double[] datos = new double[] {0.3024, 0.504,0.072,0.0045, 0.0001,0.009,0.1080 };
+            double[] datos = new double[] { 0.3024, 0.504, 0.072, 0.0045, 0.0001, 0.009, 0.1080 };
             double[] FE = new double[7];
 
             for (int k = 0; k < datos.Length; k++)
             {
                 FE[k] = datos[k] * n;
             }
-           
+
 
             for (int i = 0; i < n; i++)
             {
-                rnCortados.Add(numerosRn[i]); 
+                rnCortados.Add(numerosRn[i]);
 
-              
+
             }
 
             for (int j = 0; j < rnCortados.Count; j++)
             {
                 //Console.WriteLine(rnCortados[j]);
 
-                FO[EncontrarPosicionNumero(rnCortados[j])] += 1; 
+                FO[EncontrarPosicionNumero(rnCortados[j])] += 1;
             }
 
             Console.WriteLine("FO");
@@ -264,10 +289,10 @@ namespace PracticaSemillas
             CalcularFEFO(FO, FE);
 
 
-            Console.WriteLine("nTodos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}",FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
+            Console.WriteLine("nTodos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}", FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
 
         }
-        public  static void CalcularFEFO(int[] FO, double[] FE)
+        public static void CalcularFEFO(int[] FO, double[] FE)
         {
             double valorCritico = 12.5916;
             double[] resultado = new double[7];
@@ -275,7 +300,7 @@ namespace PracticaSemillas
             for (int i = 0; i < FO.Length; i++)
             {
                 //(Math.Pow((FE[i]-FO[i]),2)) / (FE[i]);
-                resultado[i] = (Math.Pow((FE[i]-FO[i]),2)) / (FE[i]);
+                resultado[i] = (Math.Pow((FE[i] - FO[i]), 2)) / (FE[i]);
             }
 
             double xCalculado = 0;
@@ -294,18 +319,18 @@ namespace PracticaSemillas
                 Console.WriteLine("NO se acepta que los datos son estadisticamente independientes entre sí");
             }
 
-            Console.WriteLine("Xcalculado {0}",xCalculado);
+            Console.WriteLine("Xcalculado {0}", xCalculado);
         }
 
         public static int EncontrarPosicionNumero(double numero)
-        {     
+        {
             List<int> numeroOrdenado = new List<int>();
             int k = 5;
 
             // numero = numero * 100000;
-            
-            string numS=Convert.ToString(Math.Round( numero,5));
-           
+
+            string numS = Convert.ToString(Math.Round(numero, 5));
+
             while (numS.Length < 7)
             {
                 numS += "0";
@@ -326,8 +351,9 @@ namespace PracticaSemillas
 
             string s = String.Concat(numS.OrderBy(c => c));
 
-           /* s= s.Remove(0, 2)*/;
-            
+            /* s= s.Remove(0, 2)*/
+            ;
+
             //for (int i = 1; i <= k; i++)
             //{ 
             //    numeroOrdenado.Add((int)(numero * (Math.Pow(10, i))) % 10);
@@ -355,21 +381,21 @@ namespace PracticaSemillas
             List<int> diferenciador = new List<int>();
 
 
-        
+
             var q = numeroOrdenado.GroupBy(x => x)
              .Select(g => new { Value = g.Key, Count = g.Count() })
              .OrderByDescending(x => x.Count);
 
-            
+
 
             int multiplicador = 1;
             foreach (var item in q)
-            {               
-               diferenciador.Add(item.Count);
+            {
+                diferenciador.Add(item.Count);
                 multiplicador *= item.Count;
             }
-            
-            if(multiplicador == 4 && diferenciador.Count == 3)
+
+            if (multiplicador == 4 && diferenciador.Count == 3)
             {
                 //Console.WriteLine("Posicion 6 de {1}", numero);
                 return 6;
@@ -377,32 +403,38 @@ namespace PracticaSemillas
             else
             {
                 //Console.WriteLine("Posicion {0} de {1}", (multiplicador - 1), numero);
-                return  multiplicador - 1;
+                return multiplicador - 1;
             }
 
-            
+
         }
 
-        public static void MirarNumero(double numero)
+        public static void TresDecimales(double[] numero)
         {
+
             int[] FO = new int[3];
-
-            int a = (int)Math.Floor((numero*10)%10);
-            int b = (int)Math.Floor((numero * 100) % 10);
-            int c = (int)Math.Floor((numero * 1000) % 10);
-
-            if (a == b && b == c)
+            for (int i = 0; i < numero.Length; i++)
             {
-                FO[0] += 1;
+                int a = (int)Math.Floor((numero[i] * 10) % 10);
+                int b = (int)Math.Floor((numero[i] * 100) % 10);
+                int c = (int)Math.Floor((numero[i] * 1000) % 10);
 
-            }else if (a == b || b == c || c == a)
-            {
-                FO[1] += 1;
+                if (a == b && b == c)
+                {
+                    FO[0] += 1;
+
+                }
+                else if (a == b || b == c || c == a)
+                {
+                    FO[1] += 1;
+                }
+                else
+                {
+                    FO[2] += 1;
+                }
             }
-            else
-            {
-                FO[2] += 1;
-            }
+            Console.WriteLine("Iguales {0}, \n2 iguales una diferente {1} \ndiferentes {2}", FO[0], FO[1], FO[2]);
+
 
         }
 
@@ -415,7 +447,7 @@ namespace PracticaSemillas
             for (int i = 0; i < numeroClases; i++)
             {
                 acumulado += valorInicial;
-                PEA[i] = Math.Round(acumulado,3);
+                PEA[i] = Math.Round(acumulado, 3);
                 //Console.WriteLine(PEA[i]);
             }
             return PEA;
@@ -443,10 +475,10 @@ namespace PracticaSemillas
             Console.Write("*");
             lista.Add('*');
 
-            
+
             for (int i = 1; i < datos.Length; i++)
             {
-                if((datos[i-1] < datos[i]))
+                if ((datos[i - 1] < datos[i]))
                 {
                     Console.Write("+");
                     lista.Add('+');
@@ -456,28 +488,28 @@ namespace PracticaSemillas
                 {
                     lista.Add('-');
                     Console.Write("-");
-                   // counter++;                   
+                    // counter++;                   
                 }
-               
+
             }
             for (int j = 1; j < lista.Count; j++)
             {
-                if(!(lista[j-1] == lista[j]))
+                if (!(lista[j - 1] == lista[j]))
                 {
                     counter++;
                 }
-               
+
             }
 
             double mediaU = ((2 * (datos.Length)) - 1) / 3.0;
-            double varianzaOCuadrado = ((16 * (datos.Length)) - 29)/ 90.0;
+            double varianzaOCuadrado = ((16 * (datos.Length)) - 29) / 90.0;
 
             double z = (counter - mediaU) / (Math.Sqrt(varianzaOCuadrado));
 
-           
+
             Console.WriteLine("valor de z {0}", z);
 
-            if(z <= puntosCriticos && z >= -puntosCriticos)
+            if (z <= puntosCriticos && z >= -puntosCriticos)
             {
                 Console.WriteLine("Se acepta la hipotesis y los datos son independientes");
             }
@@ -526,7 +558,7 @@ namespace PracticaSemillas
             return chiValor;
         }
 
-        public static int[] CalcularFO(double[] rnLimitado, int clases=10)
+        public static int[] CalcularFO(double[] rnLimitado, int clases = 10)
         {
             int[] FO = new int[clases];
             foreach (var xn in rnLimitado)
@@ -537,11 +569,11 @@ namespace PracticaSemillas
             return FO;
         }
 
-        public static void ComprobarHipotesis(double DMCalculado, double DMcritico,bool independecia=false)
+        public static void ComprobarHipotesis(double DMCalculado, double DMcritico, bool independecia = false)
         {
             if (DMCalculado <= DMcritico && independecia == false)
             {
-                Console.WriteLine("Se acepta la hipotesis ya que {0} <= {1} \n El generador es bueno en cuanto a uniformidad.",DMCalculado,DMcritico);
+                Console.WriteLine("Se acepta la hipotesis ya que {0} <= {1} \n El generador es bueno en cuanto a uniformidad.", DMCalculado, DMcritico);
             }
             else if (DMCalculado <= DMcritico && independecia == true)
             {
@@ -560,17 +592,17 @@ namespace PracticaSemillas
 
             foreach (var xn in numerosAleatorios)
             {
-               // Console.WriteLine(xn);
-                rn.Add(Math.Round( xn / (double)m,5));
-              
+                // Console.WriteLine(xn);
+                rn.Add(Math.Round(xn / (double)m, 5));
+
             }
 
             return rn;
         }
-        public static List<int> GeneradorLinealCongruente(int x, int a, int c,int m)
+        public static List<int> GeneradorLinealCongruente(int x, int a, int c, int m)
         {
             List<int> numerosAleatorios = new List<int>();
-           // Console.WriteLine("Generando números mediante el metodo lineal congruente...");
+            // Console.WriteLine("Generando números mediante el metodo lineal congruente...");
 
             //creamos una variable auxiliar que nos guarda el valor inicial de x0 para despues irlo iterando
             int valorParada = x;
@@ -578,7 +610,7 @@ namespace PracticaSemillas
             do
             {
                 //mostramos en pantalla los valores 
-              
+
                 periodo++;
                 //aplicamo la formula de generador lineal congruente
                 valorParada = (a * valorParada + c) % m;
@@ -589,7 +621,7 @@ namespace PracticaSemillas
 
                 //Console.WriteLine("X{0} = {1}", periodo, valorParada);
 
-            } while (x!=valorParada);
+            } while (x != valorParada);
             //Console.WriteLine("Perido Total {0}:", periodo);
             return numerosAleatorios;
         }
@@ -601,26 +633,28 @@ namespace PracticaSemillas
 
             double q = Math.Floor(m / a);
             double r = m % a;
+            double multi = (a * q) + r;
+            Console.WriteLine("multi{0}", multi);
 
-            Console.WriteLine("m Máximo = a*q+r "+a*q+r);
+            Console.WriteLine("m Máximo = a*q+r " + multi);
 
             do
             {
                 Console.WriteLine("X{0} = {1}", periodo, valorParada);
                 periodo++;
 
-                double operacion = a * (valorParada % q) - r*(Math.Floor(valorParada/q));
+                double operacion = a * (valorParada % q) - r * (Math.Floor(valorParada / q));
                 //Console.WriteLine(operacion);
 
                 valorParada = operacion >= 0 ? operacion : (operacion + m);
 
-                if(valorParada < 0) { break; };
+                if (valorParada < 0) { break; };
 
             } while (x != valorParada);
 
         }
 
-        
+
 
     }
 }
