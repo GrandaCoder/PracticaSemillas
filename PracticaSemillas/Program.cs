@@ -25,7 +25,7 @@ namespace PracticaSemillas
 
             //foreach (var item in lista)
             //{
-            //    Console.WriteLine(Math.Round(item,5));
+            //    Console.WriteLine(item);
             //}
 
             //Series(lista.ToArray(),n);
@@ -45,8 +45,8 @@ namespace PracticaSemillas
 
             //double numero = 0.55787;
             //Console.WriteLine("Posicion {0} de {1}", EncontrarPosicionNumero(numero),numero);
-           
-            //PruebaPoker(lista, 1000);
+
+            //PruebaPoker(lista, lista.Count);
             //EncontrarPosicionNumero(numero);
 
             double[] datos = new double[] { 0.41, 0.68, 0.89, 0.94, 0.74, 0.91, 0.55, 0.62, 0.36, 0.27,
@@ -60,9 +60,44 @@ namespace PracticaSemillas
                                                 0.12, 0.13, 0.29, 0.36, 0.38, 0.54, 0.68, 0.86, 0.88, 0.91};
 
 
-            double[] pruebita = new double[] { 0.55787, 0.33333, 0.16543, 0.17145, 0.51575 , 0.44343 , 0.11171 };
+            double[] pruebita = new double[] {0.06141, 0.14411, 0.87648, 0.81792,
+0.48999, 0.72484,
+0.94107, 0.56766,
+0.18590, 0.06060,
+0.11223, 0.64794,
+0.52953, 0.50502,
+0.30444, 0.70688,
+0.25357, 0.31555,
+0.04127, 0.67347,
+0.28103, 0.99367,
+0.44598, 0.73997,
+0.27813, 0.62182,
+0.82578, 0.85923,
+0.51483, 0.09099 };
 
-            PruebaPoker(pruebita.ToList(), 7);
+
+            double[] pruebita2 = new double[] { 0.85881, 0.99700, 0.75289, 0.82813, 0.02818, 0.36065, 0.45649, 0.06451, 0.07582, 0.73994, 0.52480, 0.03333, 0.50410, 0.76568, 0.11767, 0.37587, 0.55763, 0.33089, 0.53339, 0.41700, 0.24577, 0.74797, 0.92023, 0.93143, 0.05520, 0.94996, 0.35838, 0.85376, 0.41727, 0.0896 };
+
+            double[] pruebita3 = new double[] { 0.66667 , 0.59489 , 0.9282 , 0.07266 , 0.97918 ,
+0.54217 , 0.61723 , 0.27948 , 0.30443 , 0.17038 ,
+0.38956 , 0.95088 , 0.42866 , 0.26805 , 0.26174 ,
+0.78313 , 0.68031 ,0.36981 , 0.21009 , 0.98637 ,
+0.13655 , 0.18903 , 0.95187 , 0.96697 , 0.56389 ,
+0.70007 , 0.87999 , 0.87197 , 0.80151 , 0.60354 ,
+0.02252 , 0.92777 , 0.37024 , 0.70198 , 0.29505 ,
+0.57736 , 0.19596, 0.03450 , 0.39305 , 0.44865 ,
+0.21755 , 0.22514 , 0.90194 , 0.46074 , 0.24702 ,
+0.41436 , 0.88515 , 0.18487 , 0.59160 , 0.13075  };
+
+            double[] pruebita4 = new double[] { 0.06141, 0.72484, 0.94107, 0.56766, 0.14411, 0.87648,
+0.81792, 0.48999, 0.18590 ,0.06060, 0.11223 ,0.64794,
+0.52953, 0.50502, 0.30444, 0.70688, 0.25357, 0.31555,
+0.04127, 0.67347, 0.28103, 0.99367, 0.44598, 0.73997,
+0.27813, 0.62182 ,0.82578 ,0.85623, 0.51483, 0.09099 };
+            //var lista = CalcularRn(pruebita.ToList(), 7);
+
+            PruebaPoker(pruebita2.ToList(), pruebita2.Length);
+            //PruebaPoker(lista, 6000);
             //VerificarCorridas(datos2);
 
         }
@@ -201,11 +236,20 @@ namespace PracticaSemillas
 
             //7 combinaciones para 5 digitos
             int[] FO = new int[7];
+            double[] datos = new double[] {0.3024, 0.504,0.072,0.0045, 0.0001,0.009,0.1080 };
+            double[] FE = new double[7];
 
+            for (int k = 0; k < datos.Length; k++)
+            {
+                FE[k] = datos[k] * n;
+            }
+           
 
             for (int i = 0; i < n; i++)
             {
                 rnCortados.Add(numerosRn[i]); 
+
+              
             }
 
             for (int j = 0; j < rnCortados.Count; j++)
@@ -217,29 +261,96 @@ namespace PracticaSemillas
 
             Console.WriteLine("FO");
 
-            Console.WriteLine("Todos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}",FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
+            CalcularFEFO(FO, FE);
 
+
+            Console.WriteLine("nTodos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}",FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
+
+        }
+        public  static void CalcularFEFO(int[] FO, double[] FE)
+        {
+            double valorCritico = 12.5916;
+            double[] resultado = new double[7];
+
+            for (int i = 0; i < FO.Length; i++)
+            {
+                //(Math.Pow((FE[i]-FO[i]),2)) / (FE[i]);
+                resultado[i] = (Math.Pow((FE[i]-FO[i]),2)) / (FE[i]);
+            }
+
+            double xCalculado = 0;
+
+            foreach (var item in resultado)
+            {
+                //Console.WriteLine("------"+item);
+                xCalculado += item;
+            }
+            if (xCalculado <= valorCritico)
+            {
+                Console.WriteLine("Se acepta que los datos son estadisticamente independientes entre sí");
+            }
+            else
+            {
+                Console.WriteLine("NO se acepta que los datos son estadisticamente independientes entre sí");
+            }
+
+            Console.WriteLine("Xcalculado {0}",xCalculado);
         }
 
         public static int EncontrarPosicionNumero(double numero)
         {     
             List<int> numeroOrdenado = new List<int>();
             int k = 5;
-        
-            for (int i = 1; i <= k; i++)
-            { 
-                numeroOrdenado.Add((int)(numero * (Math.Pow(10, i))) % 10);
-               // Console.WriteLine(numeroOrdenado[i - 1]);
-            }
 
-            //foreach (var item in numeroOrdenado)
+            // numero = numero * 100000;
+            
+            string numS=Convert.ToString(Math.Round( numero,5));
+           
+            while (numS.Length < 7)
+            {
+                numS += "0";
+            }
+            try
+            {
+                numS = numS.Remove(0, 2);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //foreach (var item in numS)
+            //{
+            //    Console.WriteLine("-----"+item);
+            //}
+
+            string s = String.Concat(numS.OrderBy(c => c));
+
+           /* s= s.Remove(0, 2)*/;
+            
+            //for (int i = 1; i <= k; i++)
+            //{ 
+            //    numeroOrdenado.Add((int)(numero * (Math.Pow(10, i))) % 10);
+            //   // Console.WriteLine(numeroOrdenado[i - 1]);
+            //}
+
+            //foreach (var item in s)
             //{
             //    Console.WriteLine(item);
             //}
 
             //Console.ReadKey();
 
-            //numeroOrdenado.Sort();
+
+            //numeroOrdenado = Int32.Parse(s);
+            foreach (var item in s)
+            {
+                numeroOrdenado.Add(Int32.Parse(item.ToString()));
+            }
+            //foreach (var item in numeroOrdenado)
+            //{
+            //    Console.WriteLine("-"+item);
+            //}
 
             List<int> diferenciador = new List<int>();
 
@@ -248,6 +359,8 @@ namespace PracticaSemillas
             var q = numeroOrdenado.GroupBy(x => x)
              .Select(g => new { Value = g.Key, Count = g.Count() })
              .OrderByDescending(x => x.Count);
+
+            
 
             int multiplicador = 1;
             foreach (var item in q)
@@ -258,13 +371,13 @@ namespace PracticaSemillas
             
             if(multiplicador == 4 && diferenciador.Count == 3)
             {
-                //Console.WriteLine("Posicion 6 de {1}",numero);
+                //Console.WriteLine("Posicion 6 de {1}", numero);
                 return 6;
             }
             else
             {
-                //Console.WriteLine("Posicion {0} de {1}", (multiplicador - 1),numero);
-                return multiplicador - 1;
+                //Console.WriteLine("Posicion {0} de {1}", (multiplicador - 1), numero);
+                return  multiplicador - 1;
             }
 
             
@@ -448,7 +561,7 @@ namespace PracticaSemillas
             foreach (var xn in numerosAleatorios)
             {
                // Console.WriteLine(xn);
-                rn.Add(xn / (double)m);
+                rn.Add(Math.Round( xn / (double)m,5));
               
             }
 
