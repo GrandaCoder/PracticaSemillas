@@ -64,7 +64,7 @@ namespace PracticaSemillas
             //ComprobarHipotesis(valorKolmogorov2, valorCriticoK2);
 
 
-            //--------------------------------------------TERCER PUNTO a
+            //--------------------------------------------TERCER PUNTO a ----------------------------------------------
 
             //VerificarCorridas(rnEjemplo1.ToArray());
 
@@ -73,8 +73,21 @@ namespace PracticaSemillas
 
             //--------------------------------------------TERCER PUNTO b
 
-            Series(rnEjemplo1.ToArray(),n);
+            //Series(rnEjemplo1.ToArray(),n);
 
+            //Series(rnEjemplo2.ToArray(), n);
+
+
+            //--------------------------------------------TERCER PUNTO c
+
+            //PruebaPoker(rnEjemplo1, rnEjemplo1.Count);
+            //PruebaPoker(rnEjemplo2, rnEjemplo2.Count);
+
+
+
+            //--------------------------------------------CUARTO PUNTO a ----------------------------------------------
+
+            var ejemplosRandom = numerosRandom(1000);
 
 
 
