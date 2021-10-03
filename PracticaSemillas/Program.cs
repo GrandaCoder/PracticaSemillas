@@ -9,8 +9,7 @@ namespace PracticaSemillas
 
         static void Main(string[] args)
         {
-            // valores adecuados como ejemplo pequeño
-            //GeneradorLinealCongruente(5, 5, 13, 7);
+            //  VALORES DE PRUEBA
 
             int m = 6075;
             int x = 5;
@@ -19,21 +18,76 @@ namespace PracticaSemillas
 
             int n = 1200;
             double chiCritico = 16.92;
-            //GeneradorLinealCongruente(x, a, c, m);
+
+            //Pruebas inventados
+
+            int m1 = 4096;
+            int x1 = 3;
+            int a1 = 41;
+            int c1 = 9;
+            //--------------------------------------------PRIMER PUNTO 1.a ----------------------------------
+
+            var ejemplo1 = GeneradorLinealCongruente(x, a, c, m);
+            var rnEjemplo1 = CalcularRn(ejemplo1, m);
+
+
+
+            var ejemplo2 = GeneradorLinealCongruente(x1, a1, c1, m1);
+            var rnEjemplo2 = CalcularRn(ejemplo2, m1);
+
+
+            //--------------------------------------------PRIMER PUNTO 1.b
+
+            //var ejemplo3 = GeneradorEstandarMinimo(3, 41, 4096);
+            //var rnEjemplo3 = CalcularRn(ejemplo3, 4096);
+
+            //--------------------------------------------SEGUNDO PUNTO 2.a -----------------------------------
+
+            //var chiEjemplo1= ChiCuadrado(rnEjemplo1, 1000);
+            //ComprobarHipotesis(chiEjemplo1, chiCritico);
+
+            //var chiEjemplo2 = ChiCuadrado(rnEjemplo2, 1000);
+            //ComprobarHipotesis(chiEjemplo2, chiCritico);
+
+            //var chiEjemplo3 = ChiCuadrado(rnEjemplo3, 500);
+            //ComprobarHipotesis(chiEjemplo3, chiCritico);
+
+
+            //--------------------------------------------SEGUNDO PUNTO 2.b
+
+            //double valorCriticoK1 = 1.36f / (double)Math.Sqrt(n);
+            //double valorKolmogorov1 = Kolmogorov(rnEjemplo1, n);
+            //ComprobarHipotesis(valorKolmogorov1, valorCriticoK1);
+
+            //double valorCriticoK2 = 1.36f / (double)Math.Sqrt(n);
+            //double valorKolmogorov2 = Kolmogorov(rnEjemplo2, n);
+            //ComprobarHipotesis(valorKolmogorov2, valorCriticoK2);
+
+
+            //--------------------------------------------TERCER PUNTO a
+
+            //VerificarCorridas(rnEjemplo1.ToArray());
+
+            //VerificarCorridas(rnEjemplo2.ToArray());
+
+
+            //--------------------------------------------TERCER PUNTO b
+
+            Series(rnEjemplo1.ToArray(),n);
+
+
+
 
 
             //var lista = CalcularRn(GeneradorLinealCongruente(x, a, c, m), m);
 
-            //foreach (var item in lista)
-            //{
-            //    Console.WriteLine(item);
-            //}
+
 
             //Series(lista.ToArray(),n);
 
-            var listaNumerosSistema = CalcularRn(numerosRandom(6075), 6075);
+            //var listaNumerosSistema = CalcularRn(numerosRandom(6075), 6075);
 
-            PruebaPoker(listaNumerosSistema, listaNumerosSistema.Count);
+            //PruebaPoker(listaNumerosSistema, listaNumerosSistema.Count);
             //double valorChi = ChiCuadrado(listaNumerosSistema, n);
 
             //double valorChi = ChiCuadrado(lista, n);
@@ -67,39 +121,39 @@ namespace PracticaSemillas
 
 
             double[] pruebita = new double[] {0.06141, 0.14411, 0.87648, 0.81792,
-0.48999, 0.72484,
-0.94107, 0.56766,
-0.18590, 0.06060,
-0.11223, 0.64794,
-0.52953, 0.50502,
-0.30444, 0.70688,
-0.25357, 0.31555,
-0.04127, 0.67347,
-0.28103, 0.99367,
-0.44598, 0.73997,
-0.27813, 0.62182,
-0.82578, 0.85923,
-0.51483, 0.09099 };
+                                                0.48999, 0.72484,
+                                                0.94107, 0.56766,
+                                                0.18590, 0.06060,
+                                                0.11223, 0.64794,
+                                                0.52953, 0.50502,
+                                                0.30444, 0.70688,
+                                                0.25357, 0.31555,
+                                                0.04127, 0.67347,
+                                                0.28103, 0.99367,
+                                                0.44598, 0.73997,
+                                                0.27813, 0.62182,
+                                                0.82578, 0.85923,
+                                                0.51483, 0.09099 };
 
 
             double[] pruebita2 = new double[] { 0.85881, 0.99700, 0.75289, 0.82813, 0.02818, 0.36065, 0.45649, 0.06451, 0.07582, 0.73994, 0.52480, 0.03333, 0.50410, 0.76568, 0.11767, 0.37587, 0.55763, 0.33089, 0.53339, 0.41700, 0.24577, 0.74797, 0.92023, 0.93143, 0.05520, 0.94996, 0.35838, 0.85376, 0.41727, 0.0896 };
 
             double[] pruebita3 = new double[] { 0.66667 , 0.59489 , 0.9282 , 0.07266 , 0.97918 ,
-0.54217 , 0.61723 , 0.27948 , 0.30443 , 0.17038 ,
-0.38956 , 0.95088 , 0.42866 , 0.26805 , 0.26174 ,
-0.78313 , 0.68031 ,0.36981 , 0.21009 , 0.98637 ,
-0.13655 , 0.18903 , 0.95187 , 0.96697 , 0.56389 ,
-0.70007 , 0.87999 , 0.87197 , 0.80151 , 0.60354 ,
-0.02252 , 0.92777 , 0.37024 , 0.70198 , 0.29505 ,
-0.57736 , 0.19596, 0.03450 , 0.39305 , 0.44865 ,
-0.21755 , 0.22514 , 0.90194 , 0.46074 , 0.24702 ,
-0.41436 , 0.88515 , 0.18487 , 0.59160 , 0.13075  };
+                                                0.54217 , 0.61723 , 0.27948 , 0.30443 , 0.17038 ,
+                                                0.38956 , 0.95088 , 0.42866 , 0.26805 , 0.26174 ,
+                                                0.78313 , 0.68031 ,0.36981 , 0.21009 , 0.98637 ,
+                                                0.13655 , 0.18903 , 0.95187 , 0.96697 , 0.56389 ,
+                                                0.70007 , 0.87999 , 0.87197 , 0.80151 , 0.60354 ,
+                                                0.02252 , 0.92777 , 0.37024 , 0.70198 , 0.29505 ,
+                                                0.57736 , 0.19596, 0.03450 , 0.39305 , 0.44865 ,
+                                                0.21755 , 0.22514 , 0.90194 , 0.46074 , 0.24702 ,
+                                                0.41436 , 0.88515 , 0.18487 , 0.59160 , 0.13075  };
 
             double[] pruebita4 = new double[] { 0.06141, 0.72484, 0.94107, 0.56766, 0.14411, 0.87648,
-0.81792, 0.48999, 0.18590 ,0.06060, 0.11223 ,0.64794,
-0.52953, 0.50502, 0.30444, 0.70688, 0.25357, 0.31555,
-0.04127, 0.67347, 0.28103, 0.99367, 0.44598, 0.73997,
-0.27813, 0.62182 ,0.82578 ,0.85623, 0.51483, 0.09099 };
+                                            0.81792, 0.48999, 0.18590 ,0.06060, 0.11223 ,0.64794,
+                                            0.52953, 0.50502, 0.30444, 0.70688, 0.25357, 0.31555,
+                                            0.04127, 0.67347, 0.28103, 0.99367, 0.44598, 0.73997,
+                                            0.27813, 0.62182 ,0.82578 ,0.85623, 0.51483, 0.09099 };
             //var lista = CalcularRn(pruebita.ToList(), 7);
 
             //PruebaPoker(pruebita2.ToList(), pruebita2.Length);
@@ -107,7 +161,7 @@ namespace PracticaSemillas
             //VerificarCorridas(datos2);
             double[] tresDecimales = new double[] { 0.959, 0.713, 0.178, 0.427, 0.299, 0.153, 0.087, 0.615, 0.188, 0.972, 0.239, 0.425, 0.372, 0.015, 0.316, 0.532, 0.216, 0.466, 0.808, 0.444, 0.084, 0.577, 0.166, 0.182, 0.904, 0.296, 0.854, 0.317, 0.051, 0.229, 0.299, 0.199, 0.185, 0.222, 0.954, 0.582, 0.283, 0.324, 0.913, 0.158 };
 
-            TresDecimales(tresDecimales);
+            //TresDecimales(tresDecimales);
 
 
             
@@ -121,7 +175,7 @@ namespace PracticaSemillas
 
             for (int i = 0; i < n; i++)
             {
-                misNumero.Add(rnd.Next(0, 6075));
+                misNumero.Add(rnd.Next(1, 6075));//3422,1212,433,212,3232,.......2121
             }
 
             return misNumero;
@@ -191,6 +245,7 @@ namespace PracticaSemillas
             int rowLength = arr.GetLength(0);
             int colLength = arr.GetLength(1);
 
+            Console.WriteLine("\n\t0.0-0.1\t0.1-0.2\t0.2-0.3\t0.3-0.4\t0.4-0.5\t0.5-0.6\t0.6-0.7\t0.7-0.8\t0.8-0.9\t0.9-1");
             for (int i = 0; i < rowLength; i++)
             {
                 for (int j = 0; j < colLength; j++)
@@ -204,6 +259,7 @@ namespace PracticaSemillas
 
         public static double Kolmogorov(List<double> rnCalculado, int n)
         {
+            int clases = 10;
             double[] rnLimitado = new double[n];
 
 
@@ -220,6 +276,13 @@ namespace PracticaSemillas
 
             double maxValue = tablaDM.Max();
 
+
+            Console.WriteLine("\t\tFO\tFOA\tPOA\tPEA\t|PEA-POA|");
+            for (int i = 0; i < clases; i++)
+            {
+                Console.WriteLine("rango 0.{0}-0.{6} \t{1}\t{2}\t{3}\t{4}\t{5}",i,FO[i],FOA[i],POA[i],PEA[i],Math.Round( tablaDM[i],5),i+1);
+            }
+            Console.WriteLine("\t\t\t\t\tDMcal\t{0}",maxValue);
             return maxValue;
         }
 
@@ -507,7 +570,7 @@ namespace PracticaSemillas
             double z = (counter - mediaU) / (Math.Sqrt(varianzaOCuadrado));
 
 
-            Console.WriteLine("valor de z {0}", z);
+            Console.WriteLine("\nvalor de z {0}", z);
 
             if (z <= puntosCriticos && z >= -puntosCriticos)
             {
@@ -545,8 +608,10 @@ namespace PracticaSemillas
 
             for (int i = 0; i < clases; i++)
             {
+                
                 FE[i] = n / clases;
                 chiCalculado[i] = ((double)Math.Pow((FE[i] - FO[i]), 2) / FE[i]);
+
             }
             double chiValor = 0f;
             foreach (var item in chiCalculado)
@@ -555,6 +620,12 @@ namespace PracticaSemillas
                 chiValor += item;
             }
 
+            Console.WriteLine("\t\tFO\tFE\tCHI\t");
+            for (int i = 0; i < clases; i++)
+            {
+                Console.WriteLine("Rango 0.{0}-0.{4} \t{1} \t{2} \t{3}",i,FO[i],FE[i],chiCalculado[i],i+1);
+            }
+            Console.WriteLine("\t\t\tTotal:\t{0}\t",chiValor);
             return chiValor;
         }
 
@@ -593,8 +664,18 @@ namespace PracticaSemillas
             foreach (var xn in numerosAleatorios)
             {
                 // Console.WriteLine(xn);
-                rn.Add(Math.Round(xn / (double)m, 5));
+                //if(xn / (double)m < 0)
+                //{
+                //    Console.WriteLine("error xn: {0} y m {1}",xn,m);
+                //}
 
+                rn.Add(Math.Abs( Math.Round (xn / (double)m, 5)));
+
+            }
+
+            foreach (var item in rn)
+            {
+                Console.WriteLine("rn : {0}",item );
             }
 
             return rn;
@@ -622,12 +703,13 @@ namespace PracticaSemillas
                 //Console.WriteLine("X{0} = {1}", periodo, valorParada);
 
             } while (x != valorParada);
-            //Console.WriteLine("Perido Total {0}:", periodo);
+            Console.WriteLine("Perido Total {0}:", periodo);
             return numerosAleatorios;
         }
 
-        public static void GeneradorEstandarMinimo(int x, int a, int c, double m)
+        public static List<int> GeneradorEstandarMinimo(int x, int a, double m)
         {
+            List<int> numeros =new List<int>();
             double valorParada = x;
             int periodo = 0;
 
@@ -647,11 +729,12 @@ namespace PracticaSemillas
                 //Console.WriteLine(operacion);
 
                 valorParada = operacion >= 0 ? operacion : (operacion + m);
+                numeros.Add((int)operacion);
 
                 if (valorParada < 0) { break; };
 
             } while (x != valorParada);
-
+            return numeros;
         }
 
 
