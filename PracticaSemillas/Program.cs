@@ -91,9 +91,15 @@ namespace PracticaSemillas
             //ComprobarHipotesis(ChiValue, chiCritico);
 
 
-            double valorCriticoK1Random = 1.36f / (double)Math.Sqrt(ejemplosRandom.Count);
-            double valorKolmogorov1Random = Kolmogorov(ejemplosRandom, ejemplosRandom.Count);
-            ComprobarHipotesis(valorKolmogorov1Random, valorCriticoK1Random);
+            //double valorCriticoK1Random = 1.36f / (double)Math.Sqrt(ejemplosRandom.Count);
+            //double valorKolmogorov1Random = Kolmogorov(ejemplosRandom, ejemplosRandom.Count);
+            //ComprobarHipotesis(valorKolmogorov1Random, valorCriticoK1Random);
+
+            //VerificarCorridas(ejemplosRandom.ToArray());
+
+            //Series(ejemplosRandom.ToArray(), ejemplosRandom.Count);
+
+            //PruebaPoker(ejemplosRandom, ejemplosRandom.Count,true);
 
 
             //DATOS DE EJEMPLO PARA VERIFICAR 
