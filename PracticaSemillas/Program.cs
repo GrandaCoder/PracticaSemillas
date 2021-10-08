@@ -26,8 +26,8 @@ namespace PracticaSemillas
             int c1 = 9;
             //--------------------------------------------PRIMER PUNTO 1.a ----------------------------------
 
-            var ejemplo1 = GeneradorLinealCongruente(x, a, c, m);
-            var rnEjemplo1 = CalcularRn(ejemplo1, m);
+            //var ejemplo1 = GeneradorLinealCongruente(x, a, c, m);
+            //var rnEjemplo1 = CalcularRn(ejemplo1, m);
 
 
 
@@ -54,9 +54,9 @@ namespace PracticaSemillas
 
             //--------------------------------------------SEGUNDO PUNTO 2.b
 
-            double valorCriticoK1 = 1.36f / (double)Math.Sqrt(n);
-            double valorKolmogorov1 = Kolmogorov(rnEjemplo1, n);
-            ComprobarHipotesis(valorKolmogorov1, valorCriticoK1);
+            //double valorCriticoK1 = 1.36f / (double)Math.Sqrt(n);
+            //double valorKolmogorov1 = Kolmogorov(rnEjemplo1, n);
+            //ComprobarHipotesis(valorKolmogorov1, valorCriticoK1);
 
             //double valorCriticoK2 = 1.36f / (double)Math.Sqrt(n);
             //double valorKolmogorov2 = Kolmogorov(rnEjemplo2, n);
@@ -72,21 +72,28 @@ namespace PracticaSemillas
 
             //--------------------------------------------TERCER PUNTO b
 
-            //Series(rnEjemplo1.ToArray(),n);
+            //Series(rnEjemplo1.ToArray(), n);
 
             //Series(rnEjemplo2.ToArray(), n);
 
 
             //--------------------------------------------TERCER PUNTO c
 
-            //PruebaPoker(rnEjemplo1, rnEjemplo1.Count);
-            //PruebaPoker(rnEjemplo2, rnEjemplo2.Count);
+            //PruebaPoker(rnEjemplo1, rnEjemplo1.Count,true);
+            //PruebaPoker(rnEjemplo2, rnEjemplo2.Count, true);
 
 
 
             //--------------------------------------------CUARTO PUNTO a ----------------------------------------------
 
-            //var ejemplosRandom = numerosRandom(1000);
+            var ejemplosRandom = numerosRandom(1000);
+            //var ChiValue = ChiCuadrado(ejemplosRandom, ejemplosRandom.Count);
+            //ComprobarHipotesis(ChiValue, chiCritico);
+
+
+            double valorCriticoK1Random = 1.36f / (double)Math.Sqrt(ejemplosRandom.Count);
+            double valorKolmogorov1Random = Kolmogorov(ejemplosRandom, ejemplosRandom.Count);
+            ComprobarHipotesis(valorKolmogorov1Random, valorCriticoK1Random);
 
 
             //DATOS DE EJEMPLO PARA VERIFICAR 
@@ -140,17 +147,20 @@ namespace PracticaSemillas
 
             //practica
             //GeneradorLinealCongruente(2, 21, 11, 32);
+            //PruebaPoker(tresDecimales.ToList(), tresDecimales.Length,true);
+            //PruebaPoker(pruebita4.ToList(), pruebita4.Length, true);
         }
 
-        public static List<int> numerosRandom(int n)
+        public static List<double> numerosRandom(int n)
         {
-            List<int> misNumero = new List<int>();
+            List<double> misNumero = new List<double>();
 
             Random rnd = new Random();
 
             for (int i = 0; i < n; i++)
             {
-                misNumero.Add(rnd.Next(1, 6075));//3422,1212,433,212,3232,.......2121
+                
+                misNumero.Add(rnd.NextDouble());//0.12332,0.123123
             }
 
             return misNumero;
@@ -209,7 +219,7 @@ namespace PracticaSemillas
 
             }
 
-            //grados libertad 100-1 = 99 como en la tabla no aparece 99 se hizo interpolacion compleja
+            //grados libertad 100-1 = 99 
             double gradosLibertad = 123.22241;
 
             ComprobarHipotesis(valorChi2D, gradosLibertad, true);
@@ -287,9 +297,17 @@ namespace PracticaSemillas
             return POA;
         }
 
-        public static void PruebaPoker(List<double> numerosRn, int n)
+        public static void PruebaPoker(List<double> numerosRn, int n, bool isFive=false)
         {
-            CincoDecimales(numerosRn, n);
+            if (isFive)
+            {
+                CincoDecimales(numerosRn, n);
+            }
+            else
+            {
+                TresDecimales(numerosRn.ToArray());
+            }
+            
 
         }
 
@@ -322,16 +340,29 @@ namespace PracticaSemillas
             }
 
             Console.WriteLine("FO");
+            
+            double valorCritico = 12.5916;
 
-            CalcularFEFO(FO, FE);
+            var informacion = CalcularFEFO(FO, FE,valorCritico);
 
+            Console.WriteLine("\nTodos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}", FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
 
-            Console.WriteLine("nTodos diferentes:{0} \nun par {1} \nTercia: {2} \nPoker: {3} \nQuintilla: {4} \nFull: {5} \nDos pares: {6}", FO[0], FO[1], FO[2], FO[3], FO[4], FO[5], FO[6]);
+            MostrarTablaPoker(FO, FE, informacion);
+           
 
         }
-        public static void CalcularFEFO(int[] FO, double[] FE)
+
+        public static void MostrarTablaPoker(int[] FO, double[] FE,double[] FEFO)
         {
-            double valorCritico = 12.5916;
+            Console.WriteLine("\nFO\tFE\t(FE-FO)^2/FE");
+            for (int i = 0; i < FO.Length; i++)
+            {
+                Console.WriteLine("{0}\t{1}\t{2}",FO[i],Math.Round( FE[i],3), Math.Round(FEFO[i],3));
+            }
+        }
+        public static double[] CalcularFEFO(int[] FO, double[] FE,double valorCritico)
+        {
+            //double valorCritico = 12.5916;
             double[] resultado = new double[7];
 
             for (int i = 0; i < FO.Length; i++)
@@ -349,14 +380,16 @@ namespace PracticaSemillas
             }
             if (xCalculado <= valorCritico)
             {
-                Console.WriteLine("Se acepta que los datos son estadisticamente independientes entre sí");
+                Console.WriteLine("Se acepta que los datos son estadisticamente independientes entre sí con {0} <= {1}",xCalculado,valorCritico);
             }
             else
             {
-                Console.WriteLine("NO se acepta que los datos son estadisticamente independientes entre sí");
+                Console.WriteLine("NO se acepta que los datos son estadisticamente independientes entre sí.\n no cumple {0} <= {1}", xCalculado, valorCritico);
             }
 
-            Console.WriteLine("Xcalculado {0}", xCalculado);
+            //Console.WriteLine("Xcalculado {0}", xCalculado);
+
+            return resultado;
         }
 
         public static int EncontrarPosicionNumero(double numero)
@@ -427,7 +460,7 @@ namespace PracticaSemillas
 
         public static void TresDecimales(double[] numero)
         {
-
+            double[] datos = new double[] { 0.01, 0.27, 0.72 };
             int[] FO = new int[3];
             for (int i = 0; i < numero.Length; i++)
             {
@@ -449,9 +482,26 @@ namespace PracticaSemillas
                     FO[2] += 1;
                 }
             }
+        
+
+
+            double[] FE = new double[3];
+       
+
+            for (int i = 0; i < FO.Length; i++)
+            {
+
+                FE[i] = datos[i] * numero.Length;
+                //Console.WriteLine(FE[i]);
+            }
+
+            double valorCritico = 5.9915;
+
+            var informacion = CalcularFEFO(FO, FE,valorCritico);
+
             Console.WriteLine("Iguales {0}, \n2 iguales una diferente {1} \ndiferentes {2}", FO[0], FO[1], FO[2]);
-
-
+            MostrarTablaPoker(FO, FE, informacion);
+            //Console.WriteLine("Xcal {0}",suma);
         }
 
         public static double[] CalcularPEA(int numeroClases)
